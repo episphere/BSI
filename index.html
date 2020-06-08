@@ -1,0 +1,105 @@
+<html>
+<!-- Text between angle brackets is an HTML tag and is not displayed.
+    Most tags, such as the HTML and /HTML tags that surround the contents of
+    a page, come in pairs; some tags, like HR, for a horizontal rule, stand 
+    alone. Comments, such as the text you're reading, are not displayed when
+    the Web page is shown. The information between the HEAD and /HEAD tags is 
+    not displayed. The information between the BODY and /BODY tags is displayed.-->
+
+<head>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+    <title>Test login</title>
+</head>
+<!-- The information between the BODY and /BODY tags is displayed.-->
+
+<body>
+    <div id="root"></div>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase.js"></script>
+    <script>
+    const signInConfig = () => {
+        return {
+            signInSuccessUrl: '#dashboard',
+            signInOptions: [
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                firebase.auth.PhoneAuthProvider.PROVIDER_ID
+            ],
+            credentialHelper: 'none'
+        }
+    }
+    var config = {
+        apiKey: "AIzaSyDe3Ewzl4x7hEX30EiQJ0tvXBtzd2Hghiw",
+        authDomain: "localhost",
+    };
+    firebase.initializeApp({
+        apiKey: "AIzaSyDe3Ewzl4x7hEX30EiQJ0tvXBtzd2Hghiw",
+        authDomain: "localhost",
+        projectId: "nih-nci-dceg-episphere-dev",
+        storageBucket: "nih-nci-dceg-episphere-dev.appspot.com",
+        messagingSenderId: "1061219778575",
+        appId: "1:1061219778575:web:c9f40bbc7ec2cdccc5637a"
+    });
+
+    const root = document.getElementById('root');
+    root.innerHTML = '';
+    const signInDiv = document.createElement('div');
+    signInDiv.id = 'signInDiv';
+    signInDiv.className = 'row';
+    root.appendChild(signInDiv);
+    
+    const ui = firebaseui.auth.AuthUI.getInstance() || new firebaseui.auth.AuthUI(firebase.auth());
+    ui.start('#signInDiv', signInConfig());
+    let auth = firebase.auth();
+    let d = {"A":"abc"}
+    auth.onAuthStateChanged(user => {
+        //console.log(user)
+        console.log(JSON.stringify(user))
+        firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+            console.log(idToken)
+            fetch('http://localhost:8000', {
+                headers: {
+                    'Authorization':'Bearer' + idToken, 
+                    'content-type': 'application/json; charset=UTF-8'
+                },
+                method: 'GET'
+            })
+        // Send token to your backend via HTTPS
+        // ...
+        }).catch(function(error) {
+        // Handle error
+        });
+
+        
+        //.then(response => console.log("LM"))
+        /*if(user){
+            document.getElementById('navbarNavAltMarkup').innerHTML = userNavBar();
+            // addEventRetrieveNotifications();
+        }
+        else{
+            document.getElementById('navbarNavAltMarkup').innerHTML = homeNavBar();
+        }*/
+    });
+    
+    </script>
+    <!--
+    <script>
+        var email = "BSIProxyTester@gmail.com";
+        var password = "SuxkEnnx2S";
+
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                document.getElementById("message").innerHTML = "Welcome, " + user.email;
+            } else {
+                document.getElementById("message").innerHTML = "No user signed in.";
+            }
+        });
+
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+            document.getElementById("message").innerHTML = error.message;
+        });
+    </script>-->   
+</body>
+
+</html>
