@@ -53,16 +53,77 @@
     let d = {"A":"abc"}
     auth.onAuthStateChanged(user => {
         //console.log(user)
-        console.log(JSON.stringify(user))
+        //console.log(JSON.stringify(user))
         firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+            //console.log(idToken)
             console.log(idToken)
-            fetch('http://localhost:8000', {
+            fetch('https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/BSIAuthenticating', {
                 headers: {
                     'Authorization':'Bearer' + idToken, 
                     'content-type': 'application/json; charset=UTF-8'
                 },
                 method: 'GET'
-            })
+
+            }).then(response => response.json())
+            .then(data => {
+                console.log(data)
+                var newDiv = document.createElement("h2"); 
+                newDiv.style['text-align'] = 'center'
+                // and give it some content 
+                var newContent = document.createTextNode("Your role is: " + data['role']); 
+                
+                // add the text node to the newly created div
+                newDiv.appendChild(newContent);  
+
+                // add the newly created element and its content into the DOM 
+                
+                //if(data['role'] == 'admin'){
+                    var br = document.createElement("br");
+                    var textemail = document.createElement("input")
+                    textemail.type = 'text'
+                    textemail.placeholder = 'email'
+                    var textrole = document.createElement("input")
+                    textrole.type = ''
+                    textrole.placeholder = 'role'
+                    var textname = document.createElement("input")
+                    textname.type = 'text'
+                    textname.placeholder = 'name'
+                    var button= document.createElement("button")
+                    button.innerHTML = 'Add User!'
+                    newDiv.appendChild(document.createElement("br"))
+                    newDiv.appendChild(textemail);
+                    newDiv.appendChild(document.createElement("br"))
+                    newDiv.appendChild(textrole);
+                    newDiv.appendChild(document.createElement("br"))
+                    newDiv.appendChild(textname);
+                    newDiv.appendChild(document.createElement("br"))
+                    newDiv.appendChild(button);        
+                    button.addEventListener('click', function() {
+                        fetch('https://us-central1-nih-nci-dceg-episphere-dev.cloudfunctions.net/BSIAuthenticating', {
+                            headers: {
+                                'content-type': 'application/json; charset=UTF-8'
+                            },
+                            method: 'POST',
+                            body: JSON.stringify({
+                                headers: {
+                                    'authorization':'Bearer' + idToken, 
+                                    'content-type': 'application/json; charset=UTF-8'
+                                },
+                                callType: 'addUser',
+                                email: textemail.value,
+                                role: textrole.value,
+                                name: textname.value
+                            })
+
+                        }).then(response => console.log(response));
+
+
+                    })
+                //}
+                
+                root.appendChild(newDiv); 
+
+            });
         // Send token to your backend via HTTPS
         // ...
         }).catch(function(error) {

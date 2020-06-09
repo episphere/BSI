@@ -29,6 +29,11 @@ async function getEmails() {
   return emails
 }
 
+async function processCall(res,req,role){
+  let url = req.url;
+  res.end(url);
+}
+
 exports.authenticationTesting = (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Headers', '*')
@@ -48,8 +53,12 @@ exports.authenticationTesting = (req, res) => {
                         console.log(decodedToken.email)
                         if (emails.hasOwnProperty(decodedToken.email)) {
                             console.log(emails[decodedToken.email])
+                            processCall(req,res,emails[decodedToken.email])
+                            /*
                             if(req.hasOwnProperty('body') && req.body.hasOwnProperty('callType')){
+                              
                               if(req.body.callType == 'addUser'){
+
                                 if(emails[decodedToken.email] == "admin"){
                                   let db = admin.firestore();
                                   db.collection('BSIUsers').add({
@@ -65,6 +74,7 @@ exports.authenticationTesting = (req, res) => {
                               }
                             }
                             res.end(JSON.stringify({ 'role': emails[decodedToken.email] }));
+                            */
 
                         }
                         else {
