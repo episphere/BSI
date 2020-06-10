@@ -31,7 +31,7 @@ async function getEmails() {
 
 async function processCall(res,req,role){
   let url = req.url;
-  res.end(url);
+  res.end(JSON.stringify({"url":url}));
 }
 
 exports.authenticationTesting = (req, res) => {
