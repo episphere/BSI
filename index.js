@@ -53,8 +53,8 @@ exports.authenticationTesting = (req, res) => {
                         console.log(decodedToken.email)
                         if (emails.hasOwnProperty(decodedToken.email)) {
                             console.log(emails[decodedToken.email])
-                            processCall(req,res,emails[decodedToken.email])
-                            /*
+                            //processCall(req,res,emails[decodedToken.email])
+                            
                             if(req.hasOwnProperty('body') && req.body.hasOwnProperty('callType')){
                               
                               if(req.body.callType == 'addUser'){
@@ -74,7 +74,7 @@ exports.authenticationTesting = (req, res) => {
                               }
                             }
                             res.end(JSON.stringify({ 'role': emails[decodedToken.email] }));
-                            */
+                            
 
                         }
                         else {
