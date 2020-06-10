@@ -31,6 +31,22 @@ async function getEmails() {
 
 async function processCall(req,res,role){
   let url = req.url;
+  if(url == "/addUser"){
+    
+    if(role == "admin"){
+      let db = admin.firestore();
+      db.collection('BSIUsers').add({
+        email:req.body.email,
+        name:req.body.name,
+        role:req.body.role
+      })
+      res.end('user added!');
+    }
+    else{
+      res.end('failed!');
+    }
+    
+  }
   res.end(JSON.stringify({"url":url}));
 }
 
