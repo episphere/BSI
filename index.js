@@ -32,7 +32,7 @@ async function getEmails() {
 async function processCall(req,res,role){
   let url = req.url;
   if(url == "/addUser"){
-    
+
     if(role == "admin"){
       let db = admin.firestore();
       db.collection('BSIUsers').add({
@@ -47,7 +47,7 @@ async function processCall(req,res,role){
     }
     
   }
-  res.end(JSON.stringify({"url":url}));
+  res.end(JSON.stringify({"ERROR":url + ' does not exist'}));
 }
 
 exports.authenticationTesting = (req, res) => {
