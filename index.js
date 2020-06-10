@@ -29,7 +29,7 @@ async function getEmails() {
   return emails
 }
 
-async function processCall(res,req,role){
+async function processCall(req,res,role){
   let url = req.url;
   res.end(JSON.stringify({"url":url}));
 }
@@ -53,11 +53,7 @@ exports.authenticationTesting = (req, res) => {
                         console.log(decodedToken.email)
                         if (emails.hasOwnProperty(decodedToken.email)) {
                             console.log(emails[decodedToken.email])
-                            //processCall(req,res,emails[decodedToken.email])
-                            let url = req.url;
-                            
-                            res.end(JSON.stringify({"url":url}));
-                            
+                            processCall(req,res,emails[decodedToken.email])
                             /*
                             if(req.hasOwnProperty('body') && req.body.hasOwnProperty('callType')){
                               
