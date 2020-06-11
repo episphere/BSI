@@ -33,7 +33,7 @@ async function processCall(req,res,role, emails){
   let url = req.url;
   if(url == "/addUser"){
     if(role == "admin"){
-      res.end(JSON.stringify({'response':JSON.stringify(Object.keys(emails))}));
+      res.end(JSON.stringify({'response':Object.keys(emails).includes(req.body.email)}));
       /*
       if(!Object.keys(emails).includes(req.body.email)){
         db.collection('BSIUsers').add({
