@@ -71,8 +71,12 @@ async function processCall(req,res,role, emails){
     fetch('https://rest.bsisystems.com/api/rest/NCI/common/logon', { method: 'POST', user_name: process.env.username, password:process.env.password})
     .then(response => response.json())
     .then(data => {
-      res.end({'response':JSON.stringify(data)})
+      res.end(JSON.stringify({'response':JSON.stringify(data)}))
     })
+    .catch(function(error) {
+      res.end(JSON.stringify({'error':error}))
+      // Handle error
+      });
   }
   else{
     res.statusCode = 400;
