@@ -33,25 +33,25 @@ async function processCall(req,res,role, emails){
   let url = req.url;
   if(url == "/addUser"){
     if(role == "admin"){
-      res.end(JSON.stringify({'response':Object.keys(emails).includes(req.body.email)}));
-      /*
-      if(!Object.keys(emails).includes(req.body.email)){
+      //res.end(JSON.stringify({'response':Object.keys(emails).includes(req.body.email)}));
+      
+      if(Object.keys(emails).includes(req.body.email) == false){
         db.collection('BSIUsers').add({
           email:req.body.email,
           name:req.body.name,
           role:req.body.role
         })
-        res.statusCode = 200;
+        //res.statusCode = 200;
         //res.send('user added!');
-        res.end(JSON.stringify({response:'user added'}));
+        res.end(JSON.stringify({'response':'user added'}));
         
       }
       else{
-        res.statusCode = 500;
+        //res.statusCode = 500;
         //res.send('user already exists');
-        res.end(JSON.stringify({response:'user already exists'}))
+        res.end(JSON.stringify({'response':'user already exists'}))
       }
-      */
+      
       
       
     }
