@@ -29,19 +29,27 @@ async function getEmails() {
   return emails
 }
 
-async function processCall(req,res,role){
+async function processCall(req,res,role, emails){
   let url = req.url;
   if(url == "/addUser"){
 
     if(role == "admin"){
       let db = admin.firestore();
-      db.collection('BSIUsers').add({
-        email:req.body.email,
-        name:req.body.name,
-        role:req.body.role
-      })
-      res.statusCode = 200;
-      res.end('user added!');
+      if(!emails.includes(req.body.email)){
+        db.collection('BSIUsers').add({
+          email:req.body.email,
+          name:req.body.name,
+          role:req.body.role
+        })
+        res.statusCode = 200;
+        res.send('user added!');
+        res.end();
+      }
+      else{
+        res.statusCode = 500;
+        res.send('user already exists');
+        res.end()
+      }
     }
     else{
       res.statusCode = 500;
@@ -78,7 +86,7 @@ exports.authenticationTesting = (req, res) => {
                         console.log(decodedToken.email)
                         if (emails.hasOwnProperty(decodedToken.email)) {
                             console.log(emails[decodedToken.email])
-                            processCall(req,res,emails[decodedToken.email])
+                            processCall(req,res,emails[decodedToken.email],emails)
                             /*
                             if(req.hasOwnProperty('body') && req.body.hasOwnProperty('callType')){
                               
