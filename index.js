@@ -71,7 +71,7 @@ async function processCall(req,res,role, emails){
     fetch('https://rest-uat.bsisystems.com/api/rest/NCI/common/logon', { method: 'POST', user_name: process.env.username, password:process.env.password})
     .then(response => response.json())
     .then(data => {
-      res.end(JSON.stringify({'response':JSON.stringify(data)}))
+      res.end(JSON.stringify({'response':process.env.username}))
     })
     .catch(function(error) {
       res.end(JSON.stringify({'error':error}))
