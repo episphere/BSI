@@ -32,7 +32,6 @@ async function getEmails() {
 async function processCall(req,res,role, emails){
   let url = req.url;
   if(url == "/addUser"){
-
     if(role == "admin"){
       let db = admin.firestore();
       if(!emails.includes(req.body.email)){
@@ -42,12 +41,12 @@ async function processCall(req,res,role, emails){
           role:req.body.role
         })
         res.statusCode = 200;
-        res.send('user added!');
+        //res.send('user added!');
         res.end('user added!');
       }
       else{
         res.statusCode = 500;
-        res.send('user already exists');
+        //res.send('user already exists');
         res.end('user already exists')
       }
     }
