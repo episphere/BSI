@@ -40,17 +40,21 @@ async function processCall(req,res,role){
         name:req.body.name,
         role:req.body.role
       })
+      res.statusCode = 200;
       res.end('user added!');
     }
     else{
+      res.statusCode = 500;
       res.end('user does not have proper permissions!');
     }
     
   }
   else if(url == "/getUserRole"){
-    res.end(role)
+    res.statusCode = 200;
+    res.end(JSON.stringify({'role':role}))
   }
   else{
+    res.statusCode = 400;
     res.end(JSON.stringify({"ERROR":url + ' does not exist'}));
   }
 }
