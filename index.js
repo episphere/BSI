@@ -42,15 +42,15 @@ async function processCall(req,res,role, emails){
           name:req.body.name,
           role:req.body.role
         })
-        //res.statusCode = 200;
+        res.statusCode = 200;
         //res.send('user added!');
-        res.end(JSON.stringify({'response':Object.keys(emails).includes(req.body.email)}));
+        res.end(JSON.stringify({'response':'User added!'}));
         
       }
       else{
         //res.statusCode = 500;
         //res.send('user already exists');
-        res.end(JSON.stringify({'response':Object.keys(emails).includes(req.body.email)}));
+        res.end(JSON.stringify({'response':'User already exists!'}));
       }
       
       
