@@ -43,11 +43,16 @@ async function processCall(req,res,role){
       res.end('user added!');
     }
     else{
-      res.end('failed!');
+      res.end('user does not have proper permissions!');
     }
     
   }
-  res.end(JSON.stringify({"ERROR":url + ' does not exist'}));
+  else if(url == "/getUserRole"){
+    res.end(role)
+  }
+  else{
+    res.end(JSON.stringify({"ERROR":url + ' does not exist'}));
+  }
 }
 
 exports.authenticationTesting = (req, res) => {
