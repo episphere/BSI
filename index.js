@@ -49,7 +49,7 @@ async function processCall(req,res,role, emails){
       else{
         res.statusCode = 500;
         //res.send('user already exists');
-        res.end('user already exists')
+        res.end(JSON.stringify({response:'user already exists'}))
       }
       
       
