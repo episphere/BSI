@@ -33,7 +33,6 @@ async function processCall(req,res,role, emails){
   let url = req.url;
   if(url == "/addUser"){
     if(role == "admin"){
-      let db = admin.firestore();
       res.end('user added!');
       /*
       if(!emails.includes(req.body.email)){
