@@ -5,6 +5,7 @@
  * @param {!express:Response} res HTTP response context.
  */
 let admin = require('firebase-admin');
+let fetch = require('node-fetch');
 admin.initializeApp();
 
 async function getEmails() {
@@ -65,6 +66,13 @@ async function processCall(req,res,role, emails){
   else if(url == "/getUserRole"){
     res.statusCode = 200;
     res.end(JSON.stringify({'role':role}))
+  }
+  else if(url == "/bsiLogon"){
+    fetch('https://rest.bsisystems.com/api/rest/NCI/common/logon', { method: 'POST', user_name: process.env.username, password:process.env.password})
+    .then(response => response.json())
+    .then(data => {
+      res.end({'response':JSON.stringify(data)})
+    })
   }
   else{
     res.statusCode = 400;
