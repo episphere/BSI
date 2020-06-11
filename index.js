@@ -68,7 +68,7 @@ async function processCall(req,res,role, emails){
     res.end(JSON.stringify({'role':role}))
   }
   else if(url == "/bsiLogon"){
-    fetch('https://rest.bsisystems.com/api/rest/NCI/common/logon', { method: 'POST', user_name: process.env.username, password:process.env.password})
+    fetch('https://rest-uat.bsisystems.com/api/rest/NCI/common/logon', { method: 'POST', user_name: process.env.username, password:process.env.password})
     .then(response => response.json())
     .then(data => {
       res.end(JSON.stringify({'response':JSON.stringify(data)}))
