@@ -43,12 +43,12 @@ async function processCall(req,res,role, emails){
         })
         res.statusCode = 200;
         res.send('user added!');
-        res.end();
+        res.end('user added!');
       }
       else{
         res.statusCode = 500;
         res.send('user already exists');
-        res.end()
+        res.end('user already exists')
       }
     }
     else{
