@@ -84,7 +84,7 @@ async function processCall(req,res,role, emails){
         fetch("https://rest.bsisystems.com/api/rest/common/ping", {
           headers: {
             Accept: "text/plain",
-            "Bsi-Session-Id": sessionKey,
+            "BSI-SESSION-ID": sessionKey,
             "Content-Type": "application/json"
           },
           method: "POST"
