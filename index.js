@@ -99,7 +99,7 @@ async function processCall(req,res,role, emails){
             },
             method: "POST"
           })
-          .then(response => res.end(JSON.stringify({'ping': data})))
+          .then(response => res.end(JSON.stringify({'ping': sessionKey})))
         })
         .catch(function(error){
           res.end(JSON.stringify({'error':error}))
