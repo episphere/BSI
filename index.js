@@ -67,11 +67,32 @@ async function processCall(req,res,role, emails){
     res.statusCode = 200;
     res.end(JSON.stringify({'role':role}))
   }
-  else if(url == "/bsiLogon"){
-    fetch('https://rest-uat.bsisystems.com/api/rest/NCI/common/logon', { method: 'POST',  headers:{'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'text/plain'}, body:{user_name: process.env.username, password:process.env.originalPassword}})
-    .then(response => response.json())
-    .then(data => {
-      res.end(JSON.stringify({'response':data}))
+  else if(url == "/bsiLogonPing"){
+    fetch("https://rest-uat.bsisystems.com/api/rest/NCI/common/logon", {
+      body: "user_name=" + process.env.username + "&password="+process.env.password,
+      headers: {
+        Accept: "text/plain",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      method: "POST"
+    })
+    .then(response => response.text())
+    .then(sessionKey => {
+        //sessionKey = session key
+        fetch("https://rest.bsisystems.com/api/rest/common/ping", {
+          headers: {
+            Accept: "application/json",
+            "Bsi-Session-Id": sessionKey,
+            "Content-Type": "application/json"
+          },
+          method: "POST"
+        })
+        .then(response => response.text())
+        .then(data => res.end(JSON.stringify({'ping': data})))
+        .catch(function(error){
+          res.end(JSON.stringify({'error':error}))
+        });
+
     })
     .catch(function(error) {
       res.end(JSON.stringify({'error':error}))
