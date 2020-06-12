@@ -78,6 +78,7 @@ async function processCall(req,res,role, emails){
     })
     .then(response => response.text())
     .then(sessionKey => {
+
         //sessionKey = session key
         fetch("https://rest.bsisystems.com/api/rest/common/ping", {
           headers: {
@@ -88,10 +89,22 @@ async function processCall(req,res,role, emails){
           method: "POST"
         })
         .then(response => response.text())
-        .then(data => res.end(JSON.stringify({'ping': data})))
+        .then(data => {
+          
+          fetch("https://rest-uat.bsisystems.com/api/rest/common/logoff", {
+            headers: {
+              Accept: "application/json",
+              "Bsi-Session-Id": sessionKey,
+              "Content-Type": "application/json"
+            },
+            method: "POST"
+          })
+          .then(response => res.end(JSON.stringify({'ping': data})))
+        })
         .catch(function(error){
           res.end(JSON.stringify({'error':error}))
         });
+
 
     })
     .catch(function(error) {
