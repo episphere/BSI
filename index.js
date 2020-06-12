@@ -82,7 +82,7 @@ async function processCall(req,res,role, emails){
         //sessionKey = session key
         fetch("https://rest.bsisystems.com/api/rest/common/ping", {
           headers: {
-            Accept: "application/json",
+            Accept: "text/plain",
             "Bsi-Session-Id": sessionKey,
             "Content-Type": "application/json"
           },
@@ -93,7 +93,7 @@ async function processCall(req,res,role, emails){
           
           fetch("https://rest-uat.bsisystems.com/api/rest/common/logoff", {
             headers: {
-              Accept: "application/json",
+              Accept: "text/plain",
               "Bsi-Session-Id": sessionKey,
               "Content-Type": "application/json"
             },
