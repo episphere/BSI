@@ -80,6 +80,7 @@ async function processCall(req,res,role, emails){
     .then(sessionKey => {
 
         //sessionKey = session key
+        console.log(sessionKey)
         fetch("https://rest.bsisystems.com/api/rest/common/ping", {
           headers: {
             Accept: "text/plain",
@@ -125,10 +126,7 @@ exports.authenticationTesting = (req, res) => {
             .then(function (decodedToken) {
                 getEmails()
                     .then(function (emails) {
-                        console.log(emails)
-                        console.log(decodedToken.email)
                         if (emails.hasOwnProperty(decodedToken.email)) {
-                            console.log(emails[decodedToken.email])
                             processCall(req,res,emails[decodedToken.email],emails)
                             /*
                             if(req.hasOwnProperty('body') && req.body.hasOwnProperty('callType')){
@@ -163,7 +161,6 @@ exports.authenticationTesting = (req, res) => {
 
             }).catch(function (error) {
                 // Handle error
-                console.log(error)
                 res.end(JSON.stringify({ 'ERROR': error }))
             });
 
