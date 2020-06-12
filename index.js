@@ -81,7 +81,7 @@ async function processCall(req,res,role, emails){
 
         //sessionKey = session key
         console.log(sessionKey)
-        fetch("https://rest.bsisystems.com/api/rest/common/ping", {
+        fetch("https://rest-uat.bsisystems.com/api/rest/common/ping", {
           headers: {
             Accept: "text/plain",
             "BSI-SESSION-ID": sessionKey,
