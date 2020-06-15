@@ -81,7 +81,7 @@ async function processCall(req,res,role, emails){
 
         //sessionKey = session key
         console.log(sessionKey)
-        fetch("https://rest-uat.bsisystems.com/api/rest/NCI/batches/properties", {
+        fetch("https://rest-uat.bsisystems.com/api/rest/NCI/users/current", {
           headers: {
             Accept: "application/json",
             "BSI-SESSION-ID": sessionKey,
