@@ -81,13 +81,13 @@ async function processCall(req,res,role, emails){
 
         //sessionKey = session key
         console.log(sessionKey)
-        fetch("https://rest-uat.bsisystems.com/api/rest/common/ping", {
+        fetch("https://rest-uat.bsisystems.com/api/rest/batches/properties", {
           headers: {
             Accept: "text/plain",
             "BSI-SESSION-ID": sessionKey,
             "Content-Type": "application/json"
           },
-          method: "POST"
+          method: "GET"
         })
         .then(response => response.text())
         .then(data => {
@@ -99,7 +99,7 @@ async function processCall(req,res,role, emails){
             },
             method: "POST"
           })
-          .then(response => res.end(JSON.stringify({'ping': data})))
+          .then(response => res.end(JSON.stringify({'properties': data})))
           .catch(function(error){
             res.end(JSON.stringify({'error':error}))
           });
