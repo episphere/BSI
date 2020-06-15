@@ -91,15 +91,20 @@ async function processCall(req,res,role, emails){
         })
         .then(response => response.text())
         .then(data => {
-          
-          res.end(JSON.stringify({'ping': data}))
+          fetch("https://rest-uat.bsisystems.com/api/rest/common/logoff", {
+            headers: {
+              Accept: "text/plain",
+              "BSI-SESSION-ID": sessionKey,
+              "Content-Type": "application/json"
+            },
+            method: "POST"
+          })
+          .then(response => res.end(JSON.stringify({'ping': data})))
+          .catch(function(error){
+            res.end(JSON.stringify({'error':error}))
+          });
         })
-        .catch(function(error){
-          res.end(JSON.stringify({'error':error}))
-        });
-
-
-    })
+      })
     .catch(function(error) {
       res.end(JSON.stringify({'error':error}))
       // Handle error
