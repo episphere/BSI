@@ -83,7 +83,7 @@ async function processCall(req,res,role, emails){
         console.log(sessionKey)
         fetch("https://rest-uat.bsisystems.com/api/rest/NCI/batches/properties", {
           headers: {
-            Accept: "text/plain",
+            Accept: "application/json",
             "BSI-SESSION-ID": sessionKey,
             "Content-Type": "application/json"
           },
