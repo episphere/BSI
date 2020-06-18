@@ -59,7 +59,7 @@ async function processCall(req,res,role, emails){
     }
     else{
       res.statusCode = 500;
-      res.end('user does not have proper permissions!');
+      res.end({'ERROR':'user does not have proper permissions!'});
     }
     
   }
