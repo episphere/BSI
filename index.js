@@ -105,8 +105,8 @@ async function processCall(req,res,role, emails){
     })
     .then(response => response.text())
     .then(data => {
-      await logoff();
-      res.end(JSON.stringify({'properties': data}))
+      logoff()
+      .then(() => {res.end(JSON.stringify({'properties': data}))})
     })
   }
   else if(url == "/bsiAddNewShipment"){
