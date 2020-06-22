@@ -9,7 +9,7 @@ let fetch = require('node-fetch');
 admin.initializeApp();
 
 async function getSessionKey(){
-  fetch("https://rest-uat.bsisystems.com/api/rest/NCI/common/logon", {
+  let response = await fetch("https://rest-uat.bsisystems.com/api/rest/NCI/common/logon", {
       body: "user_name=" + process.env.username + "&password="+process.env.password,
       headers: {
         Accept: "text/plain",
@@ -17,10 +17,8 @@ async function getSessionKey(){
       },
       method: "POST"
     })
-    .then(response => response.text())
-    .then(sessionKey => {
-      return sessionKey;
-    })
+    let sessionKey = await response.text();
+    return sessionKey;
 }
 
 async function logoff(data){
