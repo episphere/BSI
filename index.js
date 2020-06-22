@@ -30,6 +30,7 @@ async function logoff(data){
     },
     method: "POST"
   })
+  return "done";
 }
 
 async function getEmails() {
@@ -103,11 +104,9 @@ async function processCall(req,res,role, emails){
       },
       method: "GET"
     })
-    .then(response => response.text())
-    .then(data => {
-      logoff()
-      .then(() => {res.end(JSON.stringify({'properties': data}))})
-    })
+    let data = await response.text()
+    await logoff()
+    res.end(JSON.stringify({'properties': data}))
   }
   else if(url == "/bsiAddNewShipment"){
     getSessionKey()
