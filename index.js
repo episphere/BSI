@@ -22,7 +22,7 @@ async function getSessionKey(){
 }
 
 async function logoff(data){
-  fetch("https://rest-uat.bsisystems.com/api/rest/common/logoff", {
+  await fetch("https://rest-uat.bsisystems.com/api/rest/common/logoff", {
     headers: {
       Accept: "text/plain",
       "BSI-SESSION-ID": sessionKey,
@@ -30,10 +30,6 @@ async function logoff(data){
     },
     method: "POST"
   })
-  .then(response => res.end(JSON.stringify({'properties': data})))
-  .catch(function(error){
-    res.end(JSON.stringify({'error':error}))
-  });
 }
 
 async function getEmails() {
@@ -109,8 +105,8 @@ async function processCall(req,res,role, emails){
     })
     .then(response => response.text())
     .then(data => {
+      await logoff();
       res.end(JSON.stringify({'properties': data}))
-      //logoff(data);
     })
   }
   else if(url == "/bsiAddNewShipment"){
