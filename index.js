@@ -98,29 +98,22 @@ async function processCall(req,res,role, emails){
     res.end(JSON.stringify({'role':role}))
   }
   else if(url == "/bsiLogonPing"){
-    getSessionKey()
-    .then(sessionKey => {
-
-        //sessionKey = session key
-        console.log("session key: " + sessionKey)
-        fetch("https://rest-uat.bsisystems.com/api/rest/NCI/users/current", {
-          headers: {
-            Accept: "application/json",
-            "BSI-SESSION-ID": sessionKey,
-            "Content-Type": "application/json"
-          },
-          method: "GET"
-        })
-        .then(response => response.text())
-        .then(data => {
-          res.end(JSON.stringify({'properties': data}))
-          //logoff(data);
-        })
-      })
-    .catch(function(error) {
-      res.end(JSON.stringify({'error':error}))
-      // Handle error
-      });
+    let sessionKey = await getSessionKey()
+    //sessionKey = session key
+    console.log("session key: " + sessionKey)
+    fetch("https://rest-uat.bsisystems.com/api/rest/NCI/users/current", {
+      headers: {
+        Accept: "application/json",
+        "BSI-SESSION-ID": sessionKey,
+        "Content-Type": "application/json"
+      },
+      method: "GET"
+    })
+    .then(response => response.text())
+    .then(data => {
+      res.end(JSON.stringify({'properties': data}))
+      //logoff(data);
+    })
   }
   else if(url == "/bsiAddNewShipment"){
     getSessionKey()
