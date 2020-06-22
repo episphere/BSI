@@ -8,6 +8,36 @@ let admin = require('firebase-admin');
 let fetch = require('node-fetch');
 admin.initializeApp();
 
+async function getSessionKey(){
+  fetch("https://rest-uat.bsisystems.com/api/rest/NCI/common/logon", {
+      body: "user_name=" + process.env.username + "&password="+process.env.password,
+      headers: {
+        Accept: "text/plain",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      method: "POST"
+    })
+    .then(response => response.text())
+    .then(sessionKey => {
+      return sessionKey;
+    })
+}
+
+async function logoff(data){
+  fetch("https://rest-uat.bsisystems.com/api/rest/common/logoff", {
+    headers: {
+      Accept: "text/plain",
+      "BSI-SESSION-ID": sessionKey,
+      "Content-Type": "application/json"
+    },
+    method: "POST"
+  })
+  .then(response => res.end(JSON.stringify({'properties': data})))
+  .catch(function(error){
+    res.end(JSON.stringify({'error':error}))
+  });
+}
+
 async function getEmails() {
 
   let db = admin.firestore();
@@ -68,47 +98,48 @@ async function processCall(req,res,role, emails){
     res.end(JSON.stringify({'role':role}))
   }
   else if(url == "/bsiLogonPing"){
-    fetch("https://rest-uat.bsisystems.com/api/rest/NCI/common/logon", {
-      body: "user_name=" + process.env.username + "&password="+process.env.password,
-      headers: {
-        Accept: "text/plain",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      method: "POST"
-    })
-    .then(response => response.text())
+    getSessionKey()
     .then(sessionKey => {
 
         //sessionKey = session key
         console.log(sessionKey)
-        fetch("https://rest-uat.bsisystems.com/api/rest/NCI/users/current", {
+        fetch("https://rest-uat.bsisystems.com/api/rest/NCI/common/ping", {
           headers: {
-            Accept: "application/json",
+            Accept: "text/plain",
             "BSI-SESSION-ID": sessionKey,
             "Content-Type": "application/json"
           },
-          method: "GET"
+          method: "POST"
         })
         .then(response => response.text())
         .then(data => {
-          fetch("https://rest-uat.bsisystems.com/api/rest/common/logoff", {
-            headers: {
-              Accept: "text/plain",
-              "BSI-SESSION-ID": sessionKey,
-              "Content-Type": "application/json"
-            },
-            method: "POST"
-          })
-          .then(response => res.end(JSON.stringify({'properties': data})))
-          .catch(function(error){
-            res.end(JSON.stringify({'error':error}))
-          });
+          logoff(data);
         })
       })
     .catch(function(error) {
       res.end(JSON.stringify({'error':error}))
       // Handle error
       });
+  }
+  else if(url == "/bsiAddNewShipment"){
+    getSessionKey()
+    .then(sessionKey => {
+      if(body.hasOwnProperty('properties')){
+        let properties = body[properties];
+        fetch("https://rest-uat.bsisystems.com/api/rest/NCI/shipments", {
+          headers: {
+            Accept: "application/json",
+            "BSI-SESSION-ID": sessionKey,
+            "Content-Type": "application/json"
+          },
+          method: "POST"
+        })
+        .then(response => response.text())
+        .then(data => {
+          logoff(data);
+        })
+      }
+    })
   }
   else{
     res.statusCode = 400;
