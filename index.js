@@ -113,7 +113,8 @@ async function processCall(req,res,role, emails){
         })
         .then(response => response.text())
         .then(data => {
-          logoff(data);
+          res.end(JSON.stringify({'properties': data}))
+          //logoff(data);
         })
       })
     .catch(function(error) {
