@@ -96,37 +96,17 @@ async function processCall(req,res,role, emails){
     let sessionKey = await getSessionKey()
     //sessionKey = session key
     console.log("session key: " + sessionKey)
-    let response = await fetch("https://rest-uat.bsisystems.com/api/rest/NCI/users/current", {
+    let response = await fetch("https://rest-uat.bsisystems.com/api/rest/NCI/common/ping", {
       headers: {
-        Accept: "application/json",
+        Accept: "text/plain",
         "BSI-SESSION-ID": sessionKey,
         "Content-Type": "application/json"
       },
-      method: "GET"
+      method: "POST"
     })
     let data = await response.text()
     await logoff(sessionKey)
-    res.end(JSON.stringify({'properties': data}))
-  }
-  else if(url == "/bsiAddNewShipment"){
-    getSessionKey()
-    .then(sessionKey => {
-      if(body.hasOwnProperty('properties')){
-        let properties = body[properties];
-        fetch("https://rest-uat.bsisystems.com/api/rest/NCI/shipments", {
-          headers: {
-            Accept: "application/json",
-            "BSI-SESSION-ID": sessionKey,
-            "Content-Type": "application/json"
-          },
-          method: "POST"
-        })
-        .then(response => response.text())
-        .then(data => {
-          logoff(data);
-        })
-      }
-    })
+    res.end(JSON.stringify({'ping': data}))
   }
   else{
     res.statusCode = 400;
