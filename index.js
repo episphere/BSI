@@ -96,7 +96,7 @@ async function processCall(req,res,role, emails){
     let sessionKey = await getSessionKey()
     //sessionKey = session key
     console.log("session key: " + sessionKey)
-    fetch("https://rest-uat.bsisystems.com/api/rest/NCI/users/current", {
+    let response = await fetch("https://rest-uat.bsisystems.com/api/rest/NCI/users/current", {
       headers: {
         Accept: "application/json",
         "BSI-SESSION-ID": sessionKey,
