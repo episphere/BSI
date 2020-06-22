@@ -102,7 +102,7 @@ async function processCall(req,res,role, emails){
     .then(sessionKey => {
 
         //sessionKey = session key
-        console.log(sessionKey)
+        console.log("session key: " + sessionKey)
         fetch("https://rest-uat.bsisystems.com/api/rest/NCI/users/current", {
           headers: {
             Accept: "application/json",
