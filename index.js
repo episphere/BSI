@@ -21,7 +21,7 @@ async function getSessionKey(){
     return sessionKey;
 }
 
-async function logoff(data){
+async function logoff(sessionKey){
   await fetch("https://rest-uat.bsisystems.com/api/rest/common/logoff", {
     headers: {
       Accept: "text/plain",
@@ -105,7 +105,7 @@ async function processCall(req,res,role, emails){
       method: "GET"
     })
     let data = await response.text()
-    await logoff()
+    await logoff(sessionKey)
     res.end(JSON.stringify({'properties': data}))
   }
   else if(url == "/bsiAddNewShipment"){
