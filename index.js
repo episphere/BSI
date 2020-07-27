@@ -92,6 +92,52 @@ async function processCall(req,res,role, emails){
     res.statusCode = 200;
     res.end(JSON.stringify({'role':role}))
   }
+
+  else{
+    if(role == "admin" || role == "user" || role == "moderator"){
+      let sessionKey = await getSessionKey()
+      let resheader = req.headers;
+      if(reqheader.hasOwnProperty('host')){
+        delete reqheader.host;
+      }
+      if(reqheader.hasOwnProperty('user-agent')){
+        delete reqheader['user-agent'];
+      }
+      header["BSI-SESSION=ID"] = sessionKey;
+
+      if(Object.keys(req.body).length != 0){
+
+        let response = await fetch("https://rest-uat.bsisystems.com/api/rest"+url, {
+
+          headers: header,
+          method: req.method,
+          body:req.body,
+        })
+        let data = await response.text()
+        await logoff(sessionKey)
+        res.end(JSON.stringify({'data': data}))
+        
+      }
+
+      else{
+        
+        let response = await fetch("https://rest-uat.bsisystems.com/api/rest"+url, {
+
+          headers: header,
+          method: req.method,
+    
+        })
+        let data = await response.text()
+        await logoff(sessionKey)
+        res.end(JSON.stringify({'data': data}))
+      }
+      
+    }
+    else{
+      res.end(JSON.stringify({'ERROR':'user does not have proper permissions!'}));
+    }
+  }
+/*
   else if(url == "/bsiLogonPing"){
     let sessionKey = await getSessionKey()
     //sessionKey = session key
@@ -111,7 +157,7 @@ async function processCall(req,res,role, emails){
   else{
     res.statusCode = 400;
     res.end(JSON.stringify({"ERROR":url + ' does not exist'}));
-  }
+  }*/
 }
 
 exports.authenticationTesting = (req, res) => {
