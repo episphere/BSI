@@ -134,7 +134,7 @@ async function processCall(req,res,role, emails){
         })
         let data = await response.text()
         await logoff(sessionKey)
-        res.end(JSON.stringify(data))
+        res.end(data)
       }
   
     }
