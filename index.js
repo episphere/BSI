@@ -96,7 +96,7 @@ async function processCall(req,res,role, emails){
   else{
     if(role == "admin" || role == "user" || role == "moderator" || role == "editor"){
       let sessionKey = await getSessionKey()
-      let resheader = req.headers;
+      let reqheader = req.headers;
       if(reqheader.hasOwnProperty('host')){
         delete reqheader.host;
       }
@@ -104,6 +104,8 @@ async function processCall(req,res,role, emails){
         delete reqheader['user-agent'];
       }
       header["BSI-SESSION=ID"] = sessionKey;
+      //await logoff(sessionKey)
+      //res.end(JSON.stringify({'reqheader':reqheader}))
 
       if(Object.keys(req.body).length != 0){
 
