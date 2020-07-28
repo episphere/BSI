@@ -107,7 +107,7 @@ async function processCall(req,res,role, emails){
       }
       //reqheader["BSI-SESSION-ID"] = sessionKey;
       await logoff(sessionKey)
-      res.end(JSON.stringify(reqheader)
+      res.end(JSON.stringify(reqheader))
 /*
       if(req.body !== undefined && Object.keys(req.body).length != 0){
 
