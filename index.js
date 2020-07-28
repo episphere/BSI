@@ -106,9 +106,9 @@ async function processCall(req,res,role, emails){
         }
       }
       reqheader["BSI-SESSION-ID"] = sessionKey;
-      await logoff(sessionKey)
-      res.end(JSON.stringify(reqheader))
-/*
+      //await logoff(sessionKey)
+      //res.end(JSON.stringify(reqheader))
+
       if(req.body !== undefined && Object.keys(req.body).length != 0){
 
         let response = await fetch("https://rest-uat.bsisystems.com/api/rest"+url, {
@@ -134,7 +134,7 @@ async function processCall(req,res,role, emails){
         let data = await response.text()
         await logoff(sessionKey)
         res.end(JSON.stringify({'data': data}))
-      }*/
+      }
   
     }
     else{
