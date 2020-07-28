@@ -134,7 +134,7 @@ async function processCall(req,res,role, emails){
       
     }
     else{
-      res.end(JSON.stringify({'ERROR':'user does not have proper permissions!'}));
+      res.end(JSON.stringify({'ERROR':'user does not have proper permissions! your role is ' + role}));
     }
   }
 /*
