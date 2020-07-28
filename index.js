@@ -105,7 +105,7 @@ async function processCall(req,res,role, emails){
           delete reqheader['user-agent'];
         }
       }
-      header["BSI-SESSION=ID"] = sessionKey;
+      reqheader["BSI-SESSION=ID"] = sessionKey;
       await logoff(sessionKey)
       res.end(JSON.stringify({'reqheader':reqheader}))
 /*
