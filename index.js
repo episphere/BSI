@@ -113,7 +113,7 @@ async function processCall(req,res,role, emails){
 
         let response = await fetch("https://rest-uat.bsisystems.com/api/rest"+url, {
 
-          headers: header,
+          headers: reqheader,
           method: req.method,
           body:req.body,
         })
@@ -127,7 +127,7 @@ async function processCall(req,res,role, emails){
         
         let response = await fetch("https://rest-uat.bsisystems.com/api/rest"+url, {
 
-          headers: header,
+          headers: reqheader,
           method: req.method,
     
         })
