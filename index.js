@@ -94,7 +94,7 @@ async function processCall(req,res,role, emails){
   }
 
   else{
-    if(role == "admin" || role == "user" || role == "moderator"){
+    if(role == "admin" || role == "user" || role == "moderator" || role == "editor"){
       let sessionKey = await getSessionKey()
       let resheader = req.headers;
       if(reqheader.hasOwnProperty('host')){
