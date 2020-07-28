@@ -97,17 +97,19 @@ async function processCall(req,res,role, emails){
     if(role == "admin" || role == "user" || role == "moderator" || role == "editor"){
       let sessionKey = await getSessionKey()
       let reqheader = req.headers;
-      if(reqheader.hasOwnProperty('host')){
-        delete reqheader.host;
-      }
-      if(reqheader.hasOwnProperty('user-agent')){
-        delete reqheader['user-agent'];
+      if(reqheader !== undefined){
+        if(reqheader.hasOwnProperty('host')){
+          delete reqheader.host;
+        }
+        if(reqheader.hasOwnProperty('user-agent')){
+          delete reqheader['user-agent'];
+        }
       }
       header["BSI-SESSION=ID"] = sessionKey;
       //await logoff(sessionKey)
       //res.end(JSON.stringify({'reqheader':reqheader}))
 
-      if(Object.keys(req.body).length != 0){
+      if(req.body !== undefined && Object.keys(req.body).length != 0){
 
         let response = await fetch("https://rest-uat.bsisystems.com/api/rest"+url, {
 
@@ -133,7 +135,7 @@ async function processCall(req,res,role, emails){
         await logoff(sessionKey)
         res.end(JSON.stringify({'data': data}))
       }
-      
+  
     }
     else{
       res.end(JSON.stringify({'ERROR':'user does not have proper permissions! your role is ' + role}));
