@@ -110,7 +110,9 @@ async function processCall(req,res,role, emails){
       //res.end(JSON.stringify(reqheader))
 
       if(req.body !== undefined && Object.keys(req.body).length != 0){
-
+        if(req.body.hasOwnProperty('headers')){
+          delete req.body.headers;
+        }
         let response = await fetch("https://rest-uat.bsisystems.com/api/rest"+url, {
 
           headers: reqheader,
@@ -174,7 +176,7 @@ exports.authenticationTesting = (req, res) => {
             token = req.headers.authorization.substring(6)
         }
         else {
-            token = req.headers.authorization.substring(6)
+            token = req.body.headers.authorization.substring(6)
         }
         admin.auth().verifyIdToken(token)
             .then(function (decodedToken) {
