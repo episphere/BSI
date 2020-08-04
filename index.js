@@ -109,7 +109,7 @@ async function processCall(req,res,role, emails){
       //await logoff(sessionKey)
       //res.end(JSON.stringify(reqheader))
       if(typeof req.body.hasOwnProperty('batch.type')){
-        res.end('type = string')
+        res.end({'type':'String'})
       }
       else if(req.body !== undefined && Object.keys(req.body).length != 0){
         if(req.body.hasOwnProperty('headers')){
