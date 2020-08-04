@@ -108,8 +108,10 @@ async function processCall(req,res,role, emails){
       reqheader["BSI-SESSION-ID"] = sessionKey;
       //await logoff(sessionKey)
       //res.end(JSON.stringify(reqheader))
-
-      if(req.body !== undefined && Object.keys(req.body).length != 0){
+      if(typeof req.body == 'string'){
+        res.end('type = string')
+      }
+      else if(req.body !== undefined && Object.keys(req.body).length != 0){
         if(req.body.hasOwnProperty('headers')){
           delete req.body.headers;
         }
