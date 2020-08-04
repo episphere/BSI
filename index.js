@@ -108,10 +108,7 @@ async function processCall(req,res,role, emails){
       reqheader["BSI-SESSION-ID"] = sessionKey;
       //await logoff(sessionKey)
       //res.end(JSON.stringify(reqheader))
-      if(typeof req.body.hasOwnProperty('batch.type')){
-        res.end(JSON.stringify({'type':'String'}))
-      }
-      else if(req.body !== undefined && Object.keys(req.body).length != 0){
+      if(req.body !== undefined && Object.keys(req.body).length != 0){
         if(req.body.hasOwnProperty('headers')){
           delete req.body.headers;
         }
@@ -119,7 +116,7 @@ async function processCall(req,res,role, emails){
 
           headers: reqheader,
           method: req.method,
-          body:req.body,
+          body:JSON.stringify(req.body),
         })
         let data = await response.text()
         await logoff(sessionKey)
